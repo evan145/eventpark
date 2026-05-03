@@ -36,3 +36,6 @@ include = ["app*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+markers = [
+    "deploy: live-deploy smoke tests; require BASE_URL and WEB_URL env vars",
+]
