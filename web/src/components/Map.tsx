@@ -7,10 +7,10 @@ interface Props {
 }
 
 interface LeafletExports {
-  MapContainer: ComponentType<Record<string, unknown>>;
-  TileLayer: ComponentType<Record<string, unknown>>;
-  Marker: ComponentType<Record<string, unknown>>;
-  Popup: ComponentType<Record<string, unknown>>;
+  MapContainer: ComponentType<any>;
+  TileLayer: ComponentType<any>;
+  Marker: ComponentType<any>;
+  Popup: ComponentType<any>;
   L: typeof import('leaflet');
 }
 
@@ -24,10 +24,10 @@ export default function Map({ spots, venue }: Props) {
       .then(([rl, L]) => {
         if (cancelled) return;
         setMod({
-          MapContainer: rl.MapContainer as ComponentType<Record<string, unknown>>,
-          TileLayer: rl.TileLayer as ComponentType<Record<string, unknown>>,
-          Marker: rl.Marker as ComponentType<Record<string, unknown>>,
-          Popup: rl.Popup as ComponentType<Record<string, unknown>>,
+          MapContainer: rl.MapContainer as ComponentType<any>,
+          TileLayer: rl.TileLayer as ComponentType<any>,
+          Marker: rl.Marker as ComponentType<any>,
+          Popup: rl.Popup as ComponentType<any>,
           L: L.default ?? L,
         });
       })
