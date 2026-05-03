@@ -1,8 +1,18 @@
 import os
 
 
+def _normalize_db_url(url: str) -> str:
+    if url.startswith("postgres://"):
+        return "postgresql+psycopg://" + url[len("postgres://"):]
+    if url.startswith("postgresql://"):
+        return "postgresql+psycopg://" + url[len("postgresql://"):]
+    return url
+
+
 class Settings:
-    DATABASE_URL: str = os.environ.get("DATABASE_URL", "sqlite:///./eventpark.db")
+    DATABASE_URL: str = _normalize_db_url(
+        os.environ.get("DATABASE_URL", "sqlite:///./eventpark.db")
+    )
     JWT_SECRET: str = os.environ.get("JWT_SECRET", "dev-secret-change-me")
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRE_HOURS: int = 24
