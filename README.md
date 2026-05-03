@@ -2,6 +2,15 @@
 
 Peer-to-peer event parking marketplace MVP.
 
+## Live (public beta)
+
+- Frontend: https://eventpark-main.vercel.app
+- API: https://eventpark-od29.onrender.com
+- Health check: https://eventpark-od29.onrender.com/health
+
+Beta runs without payments (`VITE_PAYMENTS_ENABLED=false`). Free-tier API may
+cold-start on first request after idle.
+
 ## Install
 
 ```bash
