@@ -34,6 +34,6 @@ async def robots():
     return Response(content=body, media_type="text/plain")
 
 
-@router.get("/health")
+@router.api_route("/health", methods=["GET", "HEAD"])
 async def health():
     return {"status": "ok"}
