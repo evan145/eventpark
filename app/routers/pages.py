@@ -32,3 +32,8 @@ async def robots():
     """Robots.txt."""
     body = "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n"
     return Response(content=body, media_type="text/plain")
+
+
+@router.get("/health")
+async def health():
+    return {"status": "ok"}
