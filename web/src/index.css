@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { font-size: 16px; }
+
+@layer base {
+  body {
+    @apply bg-white text-gray-900 antialiased;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  a { @apply text-primary-600; }
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    @apply outline-none ring-2 ring-primary-600 ring-offset-2;
+  }
+  label { @apply block text-sm font-medium text-gray-700 mb-1; }
+  input, select, textarea {
+    @apply block w-full rounded border border-gray-300 px-3 py-2 text-base;
+    min-height: 44px;
+  }
+  input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"] {
+    @apply border-red-600;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded px-4 py-2 font-medium transition;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .btn-primary { @apply btn bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-secondary { @apply btn bg-white text-primary-600 border border-primary-600 hover:bg-primary-50; }
+  .btn-ghost { @apply btn text-gray-700 hover:bg-gray-100; }
+  .card { @apply rounded-lg border border-gray-200 bg-white shadow-sm; }
+}
