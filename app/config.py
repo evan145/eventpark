@@ -19,6 +19,11 @@ class Settings:
     RATE_LIMIT: str = os.environ.get("RATE_LIMIT", "100/minute")
     HTTPS_REDIRECT: bool = os.environ.get("HTTPS_REDIRECT", "false").lower() == "true"
     MAX_PHOTO_BYTES: int = 10 * 1024 * 1024
+    ALLOWED_ORIGINS: list[str] = [
+        o.strip()
+        for o in os.environ.get("ALLOWED_ORIGINS", "").split(",")
+        if o.strip()
+    ]
 
 
 settings = Settings()

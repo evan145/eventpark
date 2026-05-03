@@ -3,6 +3,7 @@ from collections import defaultdict, deque
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 from .config import settings
@@ -34,6 +35,14 @@ def create_app(rate_limit: str | None = None, https_redirect: bool | None = None
     app = FastAPI(title="EventPark")
 
     Base.metadata.create_all(bind=engine)
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.ALLOWED_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     limit_value = rate_limit if rate_limit is not None else settings.RATE_LIMIT
     max_count, window_seconds = _parse_rate(limit_value)
