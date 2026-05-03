@@ -1,3 +1,4 @@
+import importlib
 import os
 import tempfile
 from datetime import date, time as dt_time, timedelta
@@ -229,3 +230,16 @@ def approved_listing(client, host_listing, admin_user, event):
     assert r2.status_code == 201, r2.text
     el = r2.json()
     return {"listing": host_listing, "event_listing": el, "event": event}
+
+
+@pytest.fixture(autouse=True)
+def _reset_config_and_main_after_each_test():
+    """After every test, reload app.config and app.main so module-level
+    `settings` reflects the un-monkeypatched environment again. Prevents
+    importlib.reload-based tests from leaking RATE_LIMIT, ALLOWED_ORIGINS,
+    DATABASE_URL, etc. into later tests."""
+    yield
+    import app.config
+    import app.main
+    importlib.reload(app.config)
+    importlib.reload(app.main)

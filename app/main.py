@@ -36,13 +36,20 @@ def create_app(rate_limit: str | None = None, https_redirect: bool | None = None
 
     Base.metadata.create_all(bind=engine)
 
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=settings.ALLOWED_ORIGINS,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    if settings.ALLOWED_ORIGINS:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=settings.ALLOWED_ORIGINS,
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+    else:
+        import logging
+        logging.getLogger(__name__).warning(
+            "ALLOWED_ORIGINS is empty — CORS middleware not installed. "
+            "Browser requests from a SPA will be blocked."
+        )
 
     limit_value = rate_limit if rate_limit is not None else settings.RATE_LIMIT
     max_count, window_seconds = _parse_rate(limit_value)

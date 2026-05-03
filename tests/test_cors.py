@@ -37,7 +37,7 @@ def test_cors_preflight_blocks_unlisted_origin(client_with_cors):
             "Access-Control-Request-Method": "GET",
         },
     )
-    assert r.headers.get("access-control-allow-origin") != "https://evil.example"
+    assert "access-control-allow-origin" not in r.headers
 
 
 def test_cors_get_response_includes_allow_origin_for_listed(client_with_cors):
@@ -46,3 +46,13 @@ def test_cors_get_response_includes_allow_origin_for_listed(client_with_cors):
         headers={"Origin": "https://eventpark.vercel.app"},
     )
     assert r.headers.get("access-control-allow-origin") == "https://eventpark.vercel.app"
+
+
+def test_cors_skipped_when_allowed_origins_empty(monkeypatch):
+    monkeypatch.delenv("ALLOWED_ORIGINS", raising=False)
+    importlib.reload(config_mod)
+    m = importlib.reload(main_mod)
+    client = TestClient(m.app)
+    r = client.get("/api/events", headers={"Origin": "https://anywhere.example"})
+    # No CORS middleware → no allow-origin header.
+    assert "access-control-allow-origin" not in r.headers
